@@ -83,13 +83,24 @@ We apply two undersampling approaches:
 #### Tomek Links
 Undersampling through Tomek links [[4](https://ieeexplore.ieee.org/document/4309452)] consists into removing the instances of the majority class in the way to increases the space between the two classes, facilitating the classification process.
 
-In our case, Tomek Links Undersampling is able to remove only 1000 of data records. 
+In our case, Tomek Links Undersampling is able to remove only 1000 of data records.
+
+The figure below shows a visual representation of the input dataset. The image plots all frauds, and a sample of 8.000 data points of the majority class. 
+The 2D representation is obtained applying TSNE ( t-Distributed Stochastic Neighbor Embedding).  
+We can note that data belonging to the same class is close together, and in this space data is easly separable.
+![unbalanced distribution](./doc/imgs/unbalanced_ds.png)
+
 #### Near Miss Undersampling
 Use KNN to select most representative data points.
 There are three different types of sampling:
 - NearMiss1: selects the examples from the majority class having the smallest average distance from three closest examples of minority class. 
 - NearMiss2: selects the examples from the majority class  having the smallest average distance from three farthest examples of minority class. 
 - NearMiss3: for each example of minority class, a sample of closest examples of majority class is extracted (to be sure that all positive points is surrounded from some negative example). 
+
+
+The figure below shows a visual representation of the sampled dataset with NearMiss3.
+![NearMiss3](./doc/imgs/nearmiss_3.png)
+Unlike the previous figure, it is difficult to identify clusters of data belonging to the minority class.
 
 ### Oversampling
 Unlike Undersampling, oversampling algorithms increase the size of the minority class.
@@ -108,6 +119,13 @@ In short, the process to generate the synthetic samples are as follows.
 - Repeat the procedure until the desired proportion of minority class is met.
 
 The original paper on SMOTE suggested combining SMOTE with random undersampling of the majority class.
+
+The following figure shows a visual representation of a sample extracted using smote. 
+Plotted data are a sample of 16.000 data points equally sampled between the two classes. 
+Although there are regions where both positive and negative examples are close together, 
+it is still possible to identify homogeneous clusters wrt our label.
+![SMOTE](./doc/imgs/smote.png)
+
 
 ### Hybrid Sampling
 Hybrid algorithms combine both undersampling and oversampling. 
@@ -151,7 +169,7 @@ A Good financial fraud model should be characterized by:
 - a high True Positive Rate, since we want block only fraudulent transactions without blocking the normal operativity of the client.
 
 #### Results
-The following feature shows the performances of a SVM model learned on different dataset configurations:
+The following figure shows the performances of a SVM model learned on different dataset configurations:
 - *SVM on unbalanced DF (2M)*: the SVM il learned on the whole dataset but a higher misclassification cost is given to the minority class.
 - *SVM on SMOTE DF (400k)*: The input dataset is sampled using an hybrid approach. First the majority class is randomly undersampled (200k), then new data points of the minority class are generated using SMOTE. The final balanced dataset is composed by 400k elements.
 - *SVM on NearMiss3 (16k)*: The input dataset is undersampled using NearMiss3 algorithm.  The final balanced dataset is composed by 16k data points.
@@ -167,6 +185,15 @@ The following feature shows the performances of a SVM model learned on different
 | ROC AUC             | 0.93                      | 0.97                   | 0.84                   | 0.57                 |
 | training time (sec) | 540                       | 64                     | 1.4                    | 780                  |
 ```
+
+*One Class SVM* has the worst performances, which are comparable to a random classifier.
+The best performances are obtained by *SVM on SMOTE* and *SVM on NearMiss3*.
+
+As future work, it is interesting to use for test purpose, positive examples that are not used in the data oversampling step. 
+It is possible that examples in the test set are very similar to the example in the training set.
+In my opinion, more interesting are the performances in *SVM on NearMiss3*, since negative data are very similar to the positive ones.
+As future work, it is interesting to analyze performaces of non linear model (e.g. SVM with kernel).
+Finally, we should analyze more sophisticated algorithms, such as Autoencorders or Self Supervised Learning.   
 
 
 
