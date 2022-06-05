@@ -28,13 +28,13 @@ If we aggregate per hour, it is possible to see that frauds are still equally di
 ![n of daily frauds](doc/imgs/frauds_distribution.png)
 
 About 32% of transactions has both fields `oldbalanceOrg` and `newbalanceOrig` equal to zero. Maybe those transactions are not accepted by the system or negative balances are set to 0. The same phenomenon is present in  the fields `oldbalanceDest` and `newbalanceDest`.
-Moreover, if we analyze the fields  `oldbalanceDest` and `newbalanceDest` of clients (merchants) having multiple incoming transaction,  it is possible to note that doesn't exist a correlation between these fields.
-Consider for example all incoming and outgoing transactions for client *C716083600* at step *1*. The value of `oldbalanceDest` change for each transaction. The same is not for the `newbalanceDest`, that is always the same except for the last row. 
+Moreover, if we analyze the fields  `oldbalanceDest` and `newbalanceDest` of clients (merchants) having multiple incoming transaction,  it is possible to note that doesn't exist a correlation between these attributes.
+If we consider for example all incoming and outgoing transactions for client *C716083600* at step *1*, the value of `oldbalanceDest` change for each transaction. The same is not for the `newbalanceDest`, that is always the same except for the last row. 
 
 ## 3 Dataset Manipulation
 
 ### 3.1 Data Enrichment
-We enrich each transaction with information about the spending behaviour of  source and destination clients: the number of outlinks of a client (inlink of a merchant ); the average amount of client outlinks (merchant inlinks).
+We enrich each transaction with information about the spending behaviour of source and destination clients: the number of outlinks of a client (inlink of a merchant); the average amount of client outlinks (merchant inlinks).
 
 In particular, we add the following features:
 - **countOrigStep**:number of outgoing transactions made by`nameOrig` at `step` 
