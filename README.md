@@ -13,7 +13,7 @@ The analysis is structured as follows:  **Section 2.** presents an explorative a
 
 The dataset contains 6.362.620 transactions. Only 8213 transactions are labeled as fraudulent (i.e. 0.1%). 
 
-There are 6.589.578 unique clients. Most clients do one transaction per month and only few than 1% of clients transact more. Moreover each defrauded clients has at most one transaction labeled as fraud. This means that the dataset doesn't contain complex schemas of frauds. 
+There are 6.589.578 unique clients. Most clients do one transaction per month and only few than 1% of clients transact more. Moreover, each defrauded clients has at most one transaction labeled as fraud. This means that the dataset doesn't contain complex schemas of frauds. 
 
 Fraudulent transactions can be only of type `CASH-OUT`  (4116 transactions) and `TRANSFER` (4097 transactions). Therefore, frauds can be a one shot transfer to a mule account or a single withdraw cash from a merchant. 
 For this reason, the mean amount of fraudulent transactions is higher that the mean of normal transactions.
