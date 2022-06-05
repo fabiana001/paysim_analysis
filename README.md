@@ -39,12 +39,12 @@ We enrich each transaction with information about the spending behaviour of sour
 In particular, we add the following features:
 - **countOrigStep**:number of outgoing transactions made by `nameOrig` at `step` 
 - **countOrig**: number of outgoing transactions made by `nameOrig`
--  **countDestStep**: number of incoming transactions made by`nameDest` at `step` 
-- **countDest**: number of incoming transactions made by`nameDest` 
+-  **countDestStep**: number of incoming transactions recived by`nameDest` at `step` 
+- **countDest**: number of incoming transactions recived by`nameDest` 
 - **avgAmtOrigStep**: average amount of outgoing transactions made by`nameOrig` at `step` 
 - **avgAmtOrig**: average amount of outgoing transactions made by `nameOrig`
--  **avgAmtDestStep**: average amount of incoming transactions made by`nameDest` at `step` 
-- **avgAmtDest**: average amount of of incoming transactions made by`nameDest` 
+-  **avgAmtDestStep**: average amount of incoming transactions recived by`nameDest` at `step` 
+- **avgAmtDest**: average amount of of incoming transactions recived by`nameDest` 
 - **is_CASH_OUT**: is True if `type` is `CASH_OUT`
  
 ### 3.2 Dimensionality Reduction
