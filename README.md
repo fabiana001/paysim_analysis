@@ -100,6 +100,7 @@ There are three different types of sampling:
 
 The figure below shows a visual representation of the sampled dataset with NearMiss3.
 ![NearMiss3](./doc/imgs/nearmiss_3.png)
+
 Unlike the previous figure, it is difficult to identify clusters of data belonging to the minority class.
 
 ### Oversampling
@@ -121,7 +122,7 @@ In short, the process to generate the synthetic samples are as follows.
 The original paper on SMOTE suggested combining SMOTE with random undersampling of the majority class.
 
 The following figure shows a visual representation of a sample extracted using smote. 
-Plotted data are a sample of 16.000 data points equally sampled between the two classes. 
+Plotted data is a sample of 16.000 data points equally sampled between the two classes. 
 Although there are regions where both positive and negative examples are close together, 
 it is still possible to identify homogeneous clusters wrt our label.
 ![SMOTE](./doc/imgs/smote.png)
