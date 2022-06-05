@@ -37,7 +37,7 @@ If we consider for example all incoming and outgoing transactions for client *C7
 We enrich each transaction with information about the spending behaviour of source and destination clients: the number of outlinks of a client (inlink of a merchant); the average amount of client outlinks (merchant inlinks).
 
 In particular, we add the following features:
-- **countOrigStep**:number of outgoing transactions made by`nameOrig` at `step` 
+- **countOrigStep**:number of outgoing transactions made by `nameOrig` at `step` 
 - **countOrig**: number of outgoing transactions made by `nameOrig`
 -  **countDestStep**: number of incoming transactions made by`nameDest` at `step` 
 - **countDest**: number of incoming transactions made by`nameDest` 
