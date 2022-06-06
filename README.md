@@ -3,9 +3,9 @@ Fraud is a global economic menace which threatens the survival of individuals, f
 In this analysis we explore a synthetic dataset, related to a mobile money service. Our goal is to investigate the performance of machine learning models on a highly skewed dataset. 
 
 ## 1 Overview
-Financial Fraud detection systems are challenging due two major reasons: i) fraudulent behaviours can follow different schemas; ii) fraudulent transactions are very rare.
+Financial Fraud detection systems are challenging due two major reasons: i) fraudulent behaviors can follow different schemas; ii) fraudulent transactions are very rare.
 
-In this analysis we focus on PaySIM [[1]](https://www.researchgate.net/publication/313138956_PAYSIM_A_FINANCIAL_MOBILE_MONEY_SIMULATOR_FOR_FRAUD_DETECTION) dataset. It is a synthetic dataset constructed using an agent based simulation approach [[2](https://link.springer.com/article/10.1007/s10100-011-0210-y)]. In particular, PaySim simulates mobile money transactions based on a sample of real transactions extracted from the logs of a mobile money service implemented in an African country.
+In this analysis we focus on the PaySIM [[1]](https://www.researchgate.net/publication/313138956_PAYSIM_A_FINANCIAL_MOBILE_MONEY_SIMULATOR_FOR_FRAUD_DETECTION) dataset. It is a synthetic dataset constructed using an agent based simulation approach [[2](https://link.springer.com/article/10.1007/s10100-011-0210-y)]. In particular, PaySim simulates mobile money transactions based on a sample of real transactions extracted from the logs of a mobile money service implemented in an African country.
 
 The analysis is structured as follows:  **Section 2.** presents an explorative analysis of the dataset; **Section 3**. focuses on data enrichment, dimensionality reduction and data transformation; **Section 4**. addresses the unbalanced dataset problem; **Section 5**. compares performances of a SVM classifier on different dataset configurations
 
