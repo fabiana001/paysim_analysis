@@ -224,7 +224,7 @@ It is possible that the high performances of SMOTE are due to the fact that posi
 As future work, it is interesting to use as a positive test set, examples that are not used in the data oversampling step. 
 Performances on this test set should be more truthful. 
 
-The performances in *SVM on NearMiss3* are very interesting, since negative data are very similar to the positive ones.
+The performances in *SVM on NearMiss3* are very interesting, since negative examples are very similar to the positive ones.
 As future work, we can compare the performances of non linear models (e.g. SVM with kernel) and analyze more sophisticated algorithms, such as Autoencorders or Self Supervised Learning.   
 
 
