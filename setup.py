@@ -8,8 +8,7 @@ setup(
     name="paysim_analysis",
     python_requires='>3.8',
     version="0.0.1",
-    description="project_description",
-    url="https://github.com/fabiana001/paysim_analysis",
+    description="Exploratory Data Analysis",
     long_description="Exploratory Data Analysis",
     author="fabiana lanotte",
     package_dir={'': '.'},  # Optional
