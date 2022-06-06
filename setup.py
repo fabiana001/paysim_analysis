@@ -1,44 +1,19 @@
-"""Python setup.py for project_name package"""
-import io
-import os
 from setuptools import find_packages, setup
 
-
-def read(*paths, **kwargs):
-    """Read the contents of a text file safely.
-    >>> read("project_name", "VERSION")
-    '0.1.0'
-    >>> read("README.md")
-    ...
-    """
-
-    content = ""
-    with io.open(
-        os.path.join(os.path.dirname(__file__), *paths),
-        encoding=kwargs.get("encoding", "utf8"),
-    ) as open_file:
-        content = open_file.read().strip()
-    return content
-
-
 def read_requirements(path):
-    return [
-        line.strip()
-        for line in read(path).split("\n")
-        if not line.startswith(('"', "#", "-", "git+"))
-    ]
-
+    with open(path, 'r') as file:
+        return file.readlines()
 
 setup(
-    name="PAYSIM_analysis",
+    name="paysim_analysis",
     python_requires='>3.8',
-    version=read("PAYSIM_analysis", "VERSION"),
+    version="0.0.1",
     description="project_description",
     url="https://github.com/fabiana001/paysim_analysis",
-    long_description=read("README.md"),
-    long_description_content_type="text/markdown",
+    long_description="Exploratory Data Analysis",
     author="fabiana lanotte",
-    packages=find_packages(include=["paysim_analysis"]),
+    package_dir={'': '.'},  # Optional
+    packages=find_packages(),
     install_requires=read_requirements("requirements.txt")
 )
 
