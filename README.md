@@ -1,6 +1,6 @@
 # Transaction Fraud Detection 
 Fraud is a global economic menace which threatens the survival of individuals, firms, industries and economies, and the mobile money service is no exception. 
-In this analysis we explore a synthetic dataset, related to a mobile money service. Our goal is to investigate the performance of machine learning models on an highly skewed dataset. 
+In this analysis we explore a synthetic dataset, related to a mobile money service. Our goal is to investigate the performance of machine learning models on a highly skewed dataset. 
 
 ## 1 Overview
 Financial Fraud detection systems are challenging due two major reasons: i) fraudulent behaviours can follow different schemas; ii) fraudulent transactions are very rare.
