@@ -97,7 +97,7 @@ In this analysis we focus on some state-of-art  approach.
 Undersampling techniques remove examples from the training dataset that belong to the majority class in order to better balance the class distribution, such as reducing the skew from a 1:100 to a 1:10, 1:2, or even a 1:1 class distribution.
 The main drawback of undersampling is the information loss due the reduction of data points.
 
-We apply two undersampling approaches: 
+We apply two undersampling approaches: Tomek Links, NearMiss.
 
 #### Tomek Links
 Undersampling through Tomek links [[4](https://ieeexplore.ieee.org/document/4309452)] consists in removing the instances of the majority class in the way to increase the space between the two classes, facilitating the classification process.
