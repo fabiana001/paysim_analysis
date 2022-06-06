@@ -53,7 +53,7 @@ class DatasetTransformer:
         df = df[~df["nameDest"].str.startswith("M")]
         return df
 
-    def run(self, paysim_df:pd.DataFrame) -> pd.DataFrame:
+    def run(self, paysim_df:pd.DataFrame, normalize_data=True) -> pd.DataFrame:
         """
         The function executes the following steps:
           1. Data records filtering
@@ -75,8 +75,9 @@ class DatasetTransformer:
         df_enriched["is_CASH_OUT"] = df_enriched["type"] == "CASH_OUT"
         df_enriched[self.target] = df_enriched[self.target].astype('bool')
 
-        #z-score
-        df_enriched = self._data_normalization(df_enriched)
+        if normalize_data:
+            #z-score
+            df_enriched = self._data_normalization(df_enriched)
 
         #remove useless features
         df_enriched = df_enriched[self.all_cols]

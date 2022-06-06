@@ -2,7 +2,7 @@ from typing import Optional, List, Dict, Any
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
-from sklearn.svm import LinearSVC
+from sklearn.svm import LinearSVC, OneClassSVM
 from sklearn.model_selection import cross_validate
 
 
@@ -39,5 +39,14 @@ def svm_on_balanced_df(df: pd.DataFrame, target_col: str, scoring: Optional[List
     y = df[target_col]
 
     scores = cross_validate(svc_model, X, y, scoring=scoring, cv=cv, n_jobs=-1, verbose=verbose)
-    mean_scores = {name: np.mean(arr) for name, arr in scores.items()}
+    mean_scores = {name: round(np.mean(arr),2) for name, arr in scores.items()}
     return scores, mean_scores
+
+def one_class_svm(df_train: pd.DataFrame, df_test: pd.DataFrame, target_col: str)-> (Any, np.array):
+    oneclass_model = OneClassSVM(gamma='scale', kernel="linear", nu=0.01)
+    cols = [c for c in df_train.columns if c != target_col]
+
+    oneclass_model.fit(df_train[cols])
+    y_pred = oneclass_model.predict(df_test[cols])
+    return oneclass_model, y_pred
+

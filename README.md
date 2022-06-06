@@ -18,6 +18,11 @@ There are 6.589.578 unique clients. Most clients do one transaction per month an
 Fraudulent transactions can be only of type `CASH-OUT`  (4116 transactions) and `TRANSFER` (4097 transactions). Therefore, frauds can be a one shot transfer to a mule account or a single withdraw cash from a merchant. 
 For this reason, the mean amount of fraudulent transactions is higher that the mean of normal transactions.
 
+The following figure shows the distribution of transactions, when type is `CASH-OUT` or `TRANSFER`. 
+The value True means that type is CASH-OUT, while the value False means that type is TRANSFER.
+
+![cash out distribution](doc/imgs/chash_out_distribution.png)
+
 Fraudulent transactions are equally distributed in the time. There is an average of 256 fraudulent transactions per day (11 per hour).  The highest peaks are at days 2, 10 and 17.
 
 ![n of daily frauds](doc/imgs/frauds_distribution_days.png)
@@ -27,10 +32,22 @@ If we aggregate per hour, it is possible to see that frauds are still equally di
 
 ![n of daily frauds](doc/imgs/frauds_distribution.png)
 
-About 32% of transactions has both fields `oldbalanceOrg` and `newbalanceOrig` equal to zero. Maybe those transactions are not accepted by the system or negative balances are set to 0. The same phenomenon is present in  the fields `oldbalanceDest` and `newbalanceDest`.
-Moreover, if we analyze the fields  `oldbalanceDest` and `newbalanceDest` of clients (merchants) having multiple incoming transaction,  it is possible to note that doesn't exist a correlation between these attributes.
+However, if we compare the average number of normal and fraud transactions per step, we can see a different data distribution.
+In particular, normal transactions are not equally distributed, but there are more concentrate on the first fifteen days. 
+
+![step_dist](doc/imgs/step_ditribution_30.png)
+
+
+About 32% of transactions has both fields `oldbalanceOrg` and `newbalanceOrig` equal to zero. 
+Maybe those transactions are not accepted by the system or negative balances are set to 0. 
+The same phenomenon is present in  the fields `oldbalanceDest` and `newbalanceDest`.
+
+Moreover, if we analyze the fields  `oldbalanceDest` and `newbalanceDest` of clients (merchants) having multiple incoming transaction,it is possible to note that doesn't exist a correlation between these attributes.
 If we consider for example all incoming and outgoing transactions for client *C716083600* at step *1*, the value of `oldbalanceDest` change for each transaction. The same is not for the `newbalanceDest`, that is always the same except for the last row. 
 
+![C716083600](doc/imgs/C716083600.png)
+
+A complete report on univariate and bivariate analysis can be found [here](./notebooks/comparative_analysis.html).
 ## 3 Dataset Manipulation
 
 ### 3.1 Data Enrichment
@@ -61,13 +78,15 @@ We apply z-score normalization to all numeric features related to the transactio
 
 ### 3.4 Feature Selection
 The final dataset is composed by the features described in Section 3.1 and the following original features:
-- `step`:  (z-score);
-- `amount`:  (z-score);
-- `oldbalanceOrg`:  (z-score);
-- `newbalanceOrg`:  (z-score);
-- `oldbalanceDest`: (z-score);
-- `newbalanceDest`:  (z-score);
-- `avgAmtOrigStep`: (z-score);
+- `step`;
+- `amount`;
+- `oldbalanceOrg`;
+- `newbalanceOrg`;
+- `oldbalanceDest`;
+- `newbalanceDest`;
+- `avgAmtOrigStep`;
+
+All numerical features will be scaled through Z-score normalization.  
 
 ## Handling Unbalanced Dataset
  The main challenge of Financial Fraud Detection is that datasets are highly skewed. The performance of detection model is greatly affected by the sampling approach on dataset.  
@@ -83,7 +102,7 @@ We apply two undersampling approaches:
 #### Tomek Links
 Undersampling through Tomek links [[4](https://ieeexplore.ieee.org/document/4309452)] consists into removing the instances of the majority class in the way to increases the space between the two classes, facilitating the classification process.
 
-In our case, Tomek Links Undersampling is able to remove only 1000 of data records.
+In our case, Tomek Links Undersampling removes only 1000 of data records.
 
 The figure below shows a visual representation of the input dataset. The image plots all frauds, and a sample of 8.000 data points of the majority class. 
 The 2D representation is obtained applying TSNE ( t-Distributed Stochastic Neighbor Embedding).  
@@ -101,7 +120,7 @@ There are three different types of sampling:
 The figure below shows a visual representation of the sampled dataset with NearMiss3.
 ![NearMiss3](./doc/imgs/nearmiss_3.png)
 
-Unlike the previous figure, it is difficult to identify clusters of data belonging to the minority class.
+Unlike the previous figure, it is difficult to identify clusters of data belonging to the same class.
 
 ### Oversampling
 Unlike Undersampling, oversampling algorithms increase the size of the minority class.
@@ -131,13 +150,14 @@ it is still possible to identify homogeneous clusters wrt our label.
 ### Hybrid Sampling
 Hybrid algorithms combine both undersampling and oversampling. 
 In our analysis, like the SMOTE authors suggest, we apply the following hybrid approach:
+
 	- Random undersampling (200.000 data points)
 	- Smote oversampling
 In this way we obtain a balanced sample of size 400.000
 
 ## Classification Algorithms
 
-Since our goal is how the performances of a Machine Learning model can change, using different data sample approach we will learn the following models:
+Since our goal is to analyze how the performances of a Machine Learning model change varying the sample approach, we will consider the following cases:
 
 - SVM on balanced dataset
 - SVM on unbalanced dataset, forcing the model to penalize mistakes on the minority class by an amount proportional to how underrepresented it is.
@@ -160,14 +180,14 @@ In all the other cases, we split the input dataset in Training set (70%) and Tes
 - **Recall (True Positive Rate)** computes the percentage of correctly identified frauds;
 - **Precision** that is the proportion of TP over the transactions ranked as frauds;
 - **F1 score** : harmonic mean between precision and recall;
-- **False Positive Rate (FPR)** computes the percentage of legitimate transactions that are wrongly identified as fraud;
 - **Matthews correlation coefficient (MCC)**: measures the quality of the detection rate in terms of the correlation coefficient between the observed and predicted classifications (ranking); a coefficient of +1 represents a perfect ranking, 0 no better than random prediction and −1 indicates total disagreement between prediction and observation. MCC produces a more informative and truthful score in evaluating binary classifications of unbalanced datasets.
-- **Receiver Operating Characteristic (ROC)** that express the ratio between the TPR and the FPP
-- **training time** required to learn the model.
+- **ROC AUC score** that express the ratio between the TPR and the FPP
+- **training time** in seconds.
+<!-- **False Positive Rate (FPR)** computes the percentage of legitimate transactions that are wrongly identified as fraud;-->
 
 A Good financial fraud model should be characterized by:
--  a high True Negative Rate, since fraudulent transactions increase the operative risk of the money service company.
-- a high True Positive Rate, since we want block only fraudulent transactions without blocking the normal operativity of the client.
+- a low False Negative Rate, since fraudulent transactions increase the operative risk of the money service company.
+- a low False Positive Rate, since we want block only fraudulent transactions without blocking the normal operativity of the client.
 
 #### Results
 The following figure shows the performances of a SVM model learned on different dataset configurations:
@@ -179,22 +199,33 @@ The following figure shows the performances of a SVM model learned on different 
 ```markdown
 | Metrics             | SVM on unbalanced DF (2M) | SVM on SMOTE DF (400k) | SVM on NearMiss3 (16k) | One Class SVM (200k) |
 |---------------------|---------------------------|------------------------|------------------------|----------------------|
-| Precision           | 0.55                      | 0.92                   | 0.80                   | 0.54                 |
-| Recall              | 0.93                      | 0.92                   | 0.77                   | 0.54                 |
-| F1                  | 0.58                      | 0.92                   | 0.76                   | 0.54                 |
-| MCC                 | 0.29                      | 0.84                   | 0.57                   | 0.11                 |
-| ROC AUC             | 0.93                      | 0.97                   | 0.84                   | 0.57                 |
+| Precision           | 0.55                      | 0.92                   | 0.80                   | 0.77                 |
+| Recall              | 0.93                      | 0.92                   | 0.78                   | 0.66                 |
+| F1                  | 0.59                      | 0.92                   | 0.77                   | 0.61                 |
+| MCC                 | 0.29                      | 0.83                   | 0.58                   | 0.41                 |
+| ROC AUC             | 0.93                      | 0.98                   | 0.85                   | 0.66                 |
 | training time (sec) | 540                       | 64                     | 1.4                    | 780                  |
 ```
 
-*One Class SVM* has the worst performances, which are comparable to a random classifier.
-The best performances are obtained by *SVM on SMOTE* and *SVM on NearMiss3*.
+*One Class SVM* and *SVM on unbalanced DF* have the worst performances. However, for time reasons we have not applied Cross Validation. 
+Therefore, performance scores may not be reliable. 
+Although they have a comparable F1 score, *One Class SVM* is characterized by an higher False Positive rate (i.e. 0.67 wrt 0.02); 
+*SVM on unbalanced DF* is characterized by an higher False Negative Rate (i.e. 0.10 wrt 0.02).
 
-As future work, it is interesting to use for test purpose, positive examples that are not used in the data oversampling step. 
-It is possible that examples in the test set are very similar to the example in the training set.
-In my opinion, more interesting are the performances in *SVM on NearMiss3*, since negative data are very similar to the positive ones.
-As future work, it is interesting to analyze performaces of non linear model (e.g. SVM with kernel).
-Finally, we should analyze more sophisticated algorithms, such as Autoencorders or Self Supervised Learning.   
+The figures below show the confusion matrix of *One Class SVM* and *SVM on unbalanced DF*
+
+![one_class](doc/imgs/confusion_matrix_one_class.png)
+
+![unbalanced](doc/imgs/confusion_matrix_svm_unbalanced.png)
+
+The best performances are obtained by *SVM on SMOTE* and *SVM on NearMiss3*. Performance scores are the mean of scores obtained through 10-Cross Validation.
+It is possible that the high performances of SMOTE are due to the fact that positive examples in the test set are very similar to those in the training set.
+As future work, it is interesting to use as positive test set, examples that are not used in the data oversampling step. 
+Performances on this test set should be more truthful. 
+
+The performances in *SVM on NearMiss3* are very interesting, since negative data are very similar to the positive ones.
+As future work, we can compare the performaces of non linear models (e.g. SVM with kernel) and analyze more sophisticated algorithms, such as Autoencorders or Self Supervised Learning.   
+
 
 
 

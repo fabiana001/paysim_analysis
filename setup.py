@@ -31,13 +31,14 @@ def read_requirements(path):
 
 setup(
     name="PAYSIM_analysis",
+    python_requires='>3.8',
     version=read("PAYSIM_analysis", "VERSION"),
     description="project_description",
-    #url="https://github.com/author_name/project_urlname/",
+    url="https://github.com/fabiana001/paysim_analysis",
     long_description=read("README.md"),
     long_description_content_type="text/markdown",
     author="fabiana lanotte",
-    packages=find_packages(exclude=["tests", ".github"]),
+    packages=find_packages(include=["paysim_analysis"]),
     install_requires=read_requirements("requirements.txt")
 )
 
